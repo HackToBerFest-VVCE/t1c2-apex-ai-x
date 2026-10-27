@@ -17,7 +17,7 @@ This guide provides step-by-step instructions for running the SignalMesh AI appl
 │  (Port 3000)    │  HTTP   │  (Port 5000)     │  SDK    │    Database      │
 │                 │         │                  │         │                  │
 └─────────────────┘         └──────────────────┘         └──────────────────┘
-     JATAYU-frontend 2/           backend/              SIGNALMESH_AI
+     frontend/                   backend/              SIGNALMESH_AI
                                                         .DISASTER_RISK
 ```
 
@@ -49,7 +49,7 @@ hacktober/
 │   ├── package.json
 │   ├── .env.example           # Template
 │   └── .env                   # Your credentials (create this)
-├── JATAYU-frontend 2/
+├── frontend/
 │   └── frontend/              # React application
 │       ├── src/
 │       ├── package.json
@@ -220,7 +220,7 @@ curl http://localhost:5000/api/nation-summary
 ### Step 3.1: Install Dependencies
 
 ```bash
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 npm install
 ```
 
@@ -323,7 +323,7 @@ npm run dev
 
 **Terminal 2** (Frontend):
 ```bash
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 npm start
 ```
 
@@ -349,7 +349,7 @@ Press `Ctrl+C` in each terminal to stop.
 
 ### District-Level Data (DEMO)
 
-**Source**: `JATAYU-frontend 2/frontend/src/data/locations.js`  
+**Source**: `frontend/frontend/src/data/locations.js`  
 **Scope**: 20 Northeast India districts  
 **Purpose**: Demonstrate UI/UX for district-level monitoring  
 **Label**: 🎭 DEMO DATA badge throughout application

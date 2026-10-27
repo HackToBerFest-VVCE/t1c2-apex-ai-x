@@ -111,7 +111,7 @@ Backend will run on **http://localhost:5000**
 
 ### 3. Setup Frontend
 ```bash
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 
 # Install dependencies
 npm install
@@ -157,7 +157,7 @@ CORS_ORIGIN=http://localhost:3000
 
 ### Frontend Environment Variables
 
-Create `JATAYU-frontend 2/frontend/.env.local`:
+Create `frontend/frontend/.env.local`:
 ```env
 REACT_APP_API_BASE_URL=http://localhost:5000
 REACT_APP_ENABLE_SNOWFLAKE_INTEGRATION=true
@@ -219,7 +219,7 @@ t1c2-apex-ai-x/
 │   ├── .env.example                  # Environment template
 │   └── package.json
 │
-├── JATAYU-frontend 2/frontend/       # React application
+├── frontend/frontend/       # React application
 │   ├── src/
 │   │   ├── pages/
 │   │   │   ├── IndiaDashboard.jsx    # Main India-focused dashboard
@@ -313,7 +313,7 @@ Risk Score = (Rainfall/100 × 0.30) +      // 30% weight
 
 ### Frontend Deployment (GitHub Pages)
 ```bash
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 
 # Build production bundle
 npm run build

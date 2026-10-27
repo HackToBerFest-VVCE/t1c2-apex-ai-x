@@ -37,7 +37,7 @@ npm run dev
 
 ```bash
 # Install and run frontend (terminal 2)
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 npm install --legacy-peer-deps
 npm start
 

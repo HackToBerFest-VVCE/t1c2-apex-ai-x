@@ -66,7 +66,7 @@
 
 #### Frontend (GitHub Pages)
 ```bash
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 
 # Build production bundle
 npm run build
@@ -139,7 +139,7 @@ CMD ["npm", "start"]
 ```
 
 #### Frontend Dockerfile
-Create `JATAYU-frontend 2/frontend/Dockerfile`:
+Create `frontend/frontend/Dockerfile`:
 ```dockerfile
 FROM node:18-alpine AS build
 WORKDIR /app
@@ -174,7 +174,7 @@ CORS_ORIGIN=https://your-deployed-frontend.com
 ```
 
 ### Frontend (.env.production)
-Create `JATAYU-frontend 2/frontend/.env.production`:
+Create `frontend/frontend/.env.production`:
 ```env
 REACT_APP_API_BASE_URL=https://your-deployed-backend.onrender.com
 REACT_APP_ENABLE_SNOWFLAKE_INTEGRATION=true
@@ -329,7 +329,7 @@ For automatic deployment on push, you can set up GitHub Actions workflows.
 ### Netlify CLI (Frontend):
 ```bash
 npm install -g netlify-cli
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 npm run build
 netlify deploy --prod
 ```
@@ -359,7 +359,7 @@ cd backend
 npm start
 
 # Frontend (production build)
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 npm run build
 npx serve -s build
 ```

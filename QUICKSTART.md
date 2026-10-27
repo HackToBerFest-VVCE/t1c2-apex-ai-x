@@ -66,7 +66,7 @@ You should see JSON responses with real Snowflake data! 🎉
 
 ```bash
 # Navigate to frontend directory
-cd "JATAYU-frontend 2/frontend"
+cd "frontend/frontend"
 
 # Install dependencies
 npm install
@@ -163,7 +163,7 @@ backend/
 ├── test-connection.js     # Diagnostic tool ✅
 └── package.json           # Dependencies ✅
 
-JATAYU-frontend 2/frontend/
+frontend/frontend/
 ├── src/
 │   ├── pages/             # React pages
 │   ├── components/        # React components
@@ -216,7 +216,7 @@ cd backend && npm start
 cd backend && node test-connection.js
 
 # Start frontend
-cd "JATAYU-frontend 2/frontend" && npm start
+cd "frontend/frontend" && npm start
 
 # Test API
 curl http://localhost:5000/health
