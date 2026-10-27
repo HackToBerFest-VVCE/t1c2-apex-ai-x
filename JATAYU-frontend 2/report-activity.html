@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JATAYU · Report Activity</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/app.css" />
+<style>
+  .form-wrap{max-width:520px;}
+  .form-row{margin-bottom:16px;}
+  .form-row label{display:block;font-size:13px;color:var(--text-mid);margin-bottom:7px;font-weight:500;}
+  .form-row input[type=text], .form-row select, .form-row textarea{
+    width:100%;padding:11px 14px;border-radius:9px;border:1px solid var(--border);
+    background:var(--bg-card-alt);color:var(--text-hi);font-size:14px;font-family:inherit;
+  }
+  .form-row textarea{resize:vertical;min-height:80px;}
+  .photo-row{display:flex;gap:10px;}
+  .photo-thumb{width:64px;height:64px;border-radius:9px;object-fit:cover;border:1px solid var(--border);}
+  .photo-add{
+    width:64px;height:64px;border-radius:9px;border:1.5px dashed var(--border);
+    display:flex;align-items:center;justify-content:center;color:var(--text-mid);cursor:pointer;
+  }
+  .status-track{display:flex;flex-direction:column;gap:0;margin-top:22px;}
+  .status-step{display:flex;gap:14px;padding-bottom:22px;position:relative;}
+  .status-step:last-child{padding-bottom:0;}
+  .status-step::before{
+    content:'';position:absolute;left:13px;top:28px;bottom:-4px;width:2px;background:var(--border-soft);
+  }
+  .status-step:last-child::before{display:none;}
+  .status-dot{
+    width:28px;height:28px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(63,193,119,.15);color:var(--risk-low);z-index:1;
+  }
+  .status-step.pending .status-dot{background:#1c2740;color:var(--text-low);}
+  .status-step h4{margin:0 0 3px;font-size:14.5px;}
+  .status-step p{margin:0;font-size:13px;color:var(--text-mid);}
+  .who-list{display:flex;flex-direction:column;gap:12px;margin-top:14px;}
+  .who-list .row{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text-mid);}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <main class="content">
+      <section class="grid-2">
+        <div class="card card-pad form-wrap">
+          <h3>Report Unusual Activity</h3>
+          <p style="font-size:13px;color:var(--text-mid);margin:6px 0 18px;">
+            Citizens and field officers can flag ground signs — our AI verifies and updates the risk map if needed.
+          </p>
+
+          <form id="reportForm">
+            <div class="form-row">
+              <label>Location</label>
+              <input type="text" value="Dima Hasao, Assam" />
+            </div>
+            <div class="form-row">
+              <label>Observation Type</label>
+              <select>
+                <option>Cracks on ground</option>
+                <option>Water seepage</option>
+                <option>Tilted trees / poles</option>
+                <option>Debris movement</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <label>Description</label>
+              <textarea placeholder="Found new cracks on the hillside after heavy rain.">Found new cracks on the hillside after heavy rain.</textarea>
+            </div>
+            <div class="form-row">
+              <label>Photos</label>
+              <div class="photo-row">
+                <div class="photo-thumb" style="background:linear-gradient(135deg,#3a4a5c,#22303f);"></div>
+                <div class="photo-thumb" style="background:linear-gradient(135deg,#2c3a4a,#18232f);"></div>
+                <div class="photo-add" id="addPhoto"></div>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-gold btn-block">Submit Report</button>
+          </form>
+        </div>
+
+        <div>
+          <div class="card card-pad">
+            <h3>Report Status</h3>
+            <div class="status-track" id="statusTrack"></div>
+          </div>
+
+          <div class="card card-pad" style="margin-top:18px;">
+            <h3>Who Can Report</h3>
+            <div class="who-list" id="whoList"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  renderSidebar("report-activity");
+  renderTopbar({ title: "Report Activity", subtitle: "Field-verified signs help keep the risk map accurate" });
+  initMobileNav();
+
+  document.getElementById("addPhoto").innerHTML = ICONS.plus;
+
+  const steps = [
+    { title: "Report Submitted", desc: "Report ID #FR-2025-0056 received with location, photos and details.", done: true },
+    { title: "AI Verification in Progress", desc: "AI analyzes the report, photos and nearby sensor data.", done: true },
+    { title: "Verification Result", desc: "Cracks detected on slope. Report matches environmental conditions. Confidence 82%.", done: true },
+    { title: "Risk Updated", desc: "Risk level increased from High (72/100) to Very High (88/100). Authorities notified.", done: false },
+  ];
+  document.getElementById("statusTrack").innerHTML = steps.map(s => `
+    <div class="status-step ${s.done ? "" : "pending"}">
+      <div class="status-dot">${s.done ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg>` : `<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="5"/></svg>`}</div>
+      <div><h4>${s.title}</h4><p>${s.desc}</p></div>
+    </div>
+  `).join("");
+
+  const who = ["Citizens", "Field Officers", "Village Volunteers", "Disaster Teams"];
+  document.getElementById("whoList").innerHTML = who.map(w => `<div class="row">${ICONS.user}${w}</div>`).join("");
+
+  document.getElementById("reportForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    alert("Report submitted. AI verification will begin shortly.");
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JATAYU · Risk Analysis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/app.css" />
+<style>
+  .ra-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;flex-wrap:wrap;gap:14px;}
+  .ra-header-left{display:flex;align-items:center;gap:16px;}
+  .back-link{display:flex;align-items:center;gap:8px;color:var(--text-mid);font-size:14px;cursor:pointer;}
+  .back-link:hover{color:var(--text-hi);}
+  .ra-title{font-family:var(--font-display);font-size:24px;font-weight:700;margin:0;}
+
+  .factor-row{display:flex;align-items:center;gap:14px;padding:16px 0;border-bottom:1px solid var(--border-soft);}
+  .factor-row:last-child{border-bottom:none;}
+  .factor-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .factor-name{font-size:14.5px;font-weight:500;width:150px;flex-shrink:0;}
+  .factor-level{width:80px;flex-shrink:0;font-size:13.5px;font-weight:700;}
+  .factor-bar{flex:1;height:7px;border-radius:99px;background:#22304a;overflow:hidden;}
+  .factor-bar>div{height:100%;border-radius:99px;}
+  .factor-pct{width:44px;text-align:right;font-size:13.5px;color:var(--text-mid);flex-shrink:0;}
+
+  .why-illustration{
+    margin-top:22px;border-radius:var(--radius-md);
+    background:linear-gradient(180deg,#16324a,#0d2436);
+    padding:26px 20px 0;overflow:hidden;height:150px;position:relative;
+  }
+
+  .bottom-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:18px;}
+  .bottom-card{padding:22px;}
+  .bottom-card .row{display:flex;align-items:center;gap:12px;margin-bottom:4px;}
+  .bottom-card .icon-circle{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;}
+  @media (max-width:900px){.bottom-grid{grid-template-columns:1fr;} .grid-2{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <main class="content">
+      <div class="ra-header">
+        <div class="ra-header-left">
+          <a href="map.html" class="back-link"><span id="backIcon"></span>Back</a>
+          <h2 class="ra-title">Dima Hasao, Assam</h2>
+        </div>
+        <span class="badge badge-vhigh">Very High Risk</span>
+      </div>
+
+      <div class="tabs" style="margin-top:18px;">
+        <div class="tab">Overview</div>
+        <div class="tab active">Factors</div>
+        <div class="tab">History</div>
+        <div class="tab">Impact</div>
+        <div class="tab">Recommendations</div>
+      </div>
+
+      <section class="grid-2">
+        <div class="card card-pad">
+          <h3>Contributing Factors</h3>
+          <div style="margin-top:10px;" id="factorsList"></div>
+        </div>
+
+        <div class="card card-pad">
+          <h3>Why is the risk high?</h3>
+          <p style="color:var(--text-mid);font-size:14.5px;line-height:1.7;margin-top:12px;">
+            High rainfall and soil moisture combined with steep slopes in this region increase the chance of landslide occurrence.
+          </p>
+          <div class="why-illustration" id="whyArt"></div>
+        </div>
+      </section>
+
+      <section class="bottom-grid">
+        <div class="card bottom-card">
+          <div class="row">
+            <div class="icon-circle" style="background:rgba(93,140,255,.15);color:#5d8cff;" id="scoreIcon"></div>
+            <div style="font-size:13.5px;color:var(--text-mid);">Risk Score</div>
+          </div>
+          <div style="font-family:var(--font-display);font-size:30px;font-weight:700;margin:10px 0 8px;">87 / 100</div>
+          <div style="height:7px;border-radius:99px;background:#22304a;overflow:hidden;">
+            <div style="height:100%;width:87%;background:var(--risk-vhigh);"></div>
+          </div>
+        </div>
+
+        <div class="card bottom-card">
+          <div class="row">
+            <div class="icon-circle" style="background:rgba(63,193,119,.15);color:#3fc177;" id="impactIcon"></div>
+            <div style="font-size:13.5px;color:var(--text-mid);">Potential Impact</div>
+          </div>
+          <div class="impact-row" style="margin-top:14px;">
+            <div class="impact-item" id="impRoad"><b>3</b>Roads</div>
+            <div class="impact-item" id="impVillage"><b>2</b>Villages</div>
+            <div class="impact-item" id="impBuilding"><b>1</b>Infrastructure</div>
+          </div>
+        </div>
+
+        <div class="card bottom-card">
+          <div class="row">
+            <div class="icon-circle" style="background:rgba(229,72,77,.15);color:var(--risk-vhigh);" id="alertIconBottom"></div>
+            <div style="font-size:13.5px;color:var(--text-mid);">Current Risk Level</div>
+          </div>
+          <span class="badge badge-vhigh" style="margin:10px 0 10px;display:inline-flex;">Very High Risk</span>
+          <p style="font-size:13px;color:var(--text-mid);margin:8px 0 0;line-height:1.6;">
+            High probability of landslide occurrence in the near term.
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  renderSidebar("risk-analysis");
+  renderTopbar({ title: "Risk Analysis" });
+  initMobileNav();
+
+  document.getElementById("backIcon").innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`;
+  document.getElementById("scoreIcon").innerHTML = ICONS.clipboard;
+  document.getElementById("impactIcon").innerHTML = ICONS.user;
+  document.getElementById("alertIconBottom").innerHTML = ICONS.triangleWarn;
+  document.getElementById("impRoad").innerHTML = ICONS.road + document.getElementById("impRoad").innerHTML;
+  document.getElementById("impVillage").innerHTML = ICONS.village + document.getElementById("impVillage").innerHTML;
+  document.getElementById("impBuilding").innerHTML = ICONS.building + document.getElementById("impBuilding").innerHTML;
+
+  const factors = [
+    { icon: "cloudRain", name: "Rainfall (72 hrs)", level: "High", pct: 85, color: "#5d8cff" },
+    { icon: "droplet", name: "Soil Moisture", level: "High", pct: 78, color: "#f5893a" },
+    { icon: "slope", name: "Slope Gradient", level: "High", pct: 82, color: "#f0c419" },
+    { icon: "leaf", name: "Land Cover Change", level: "Moderate", pct: 56, color: "#3fc177" },
+    { icon: "pulse", name: "Recent Earthquakes", level: "Low", pct: 15, color: "#3fc177" },
+  ];
+  const levelColor = { High: "var(--risk-high)", Moderate: "var(--risk-mod)", Low: "var(--risk-low)" };
+
+  document.getElementById("factorsList").innerHTML = factors.map(f => `
+    <div class="factor-row">
+      <div class="factor-icon" style="background:${f.color}22;color:${f.color};">${ICONS[f.icon]}</div>
+      <div class="factor-name">${f.name}</div>
+      <div class="factor-level" style="color:${levelColor[f.level]};">${f.level}</div>
+      <div class="factor-bar"><div style="width:${f.pct}%;background:${f.color};"></div></div>
+      <div class="factor-pct">${f.pct}%</div>
+    </div>
+  `).join("");
+
+  document.getElementById("whyArt").innerHTML = `
+    <svg viewBox="0 0 400 140" width="100%" height="140">
+      <path d="M0,140 L0,90 C60,70 100,100 160,80 C220,60 260,95 320,75 C350,65 380,80 400,72 L400,140 Z" fill="#3a2a1a" opacity="0.9"/>
+      <g stroke="#8fb3e8" stroke-width="2" stroke-linecap="round" opacity="0.85">
+        <line x1="60" y1="10" x2="52" y2="28"/><line x1="80" y1="14" x2="72" y2="32"/>
+        <line x1="140" y1="6" x2="132" y2="24"/><line x1="160" y1="10" x2="152" y2="28"/>
+        <line x1="240" y1="10" x2="232" y2="28"/><line x1="260" y1="14" x2="252" y2="32"/>
+      </g>
+      <ellipse cx="90" cy="0" rx="46" ry="16" fill="#4a6072"/>
+      <ellipse cx="240" cy="-4" rx="52" ry="18" fill="#4a6072"/>
+      <g fill="#2f6b41">
+        <path d="M340 90 l10 -30 l10 30 z"/>
+        <path d="M360 95 l10 -34 l10 34 z"/>
+        <path d="M320 95 l9 -26 l9 26 z"/>
+      </g>
+    </svg>`;
+</script>
+</body>
+</html>

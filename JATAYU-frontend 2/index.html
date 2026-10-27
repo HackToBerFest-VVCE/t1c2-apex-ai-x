@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JATAYU · Login</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/login.css" />
+</head>
+<body>
+
+<div class="login-screen">
+  <img class="login-screen__bg" src="assets/img/mountains-bg.svg" alt="" />
+
+  <div class="login-corner tl">Monitor<br/>Predict<br/>Prevent<br/>For a Safer Northeast</div>
+  <div class="login-corner tr">Safer Communities<br/>Stronger Tomorrow</div>
+  <div class="login-corner br">A Safer Tomorrow<br/>Through Smarter Monitoring</div>
+
+  <div class="login-strip">
+    <span>&#9650;&nbsp; People</span>
+    <span class="sep">|</span>
+    <span>&#127807;&nbsp; Environment</span>
+    <span class="sep">|</span>
+    <span>&#128737;&nbsp; Resilient Northeast</span>
+  </div>
+
+  <div class="login-center">
+   <img class="login-logo" src="assets/img/slope.jpeg" alt="JATAYU logo" />
+    <h1 class="login-title gold-text">JATAYU</h1>
+    <p class="login-subtitle">Landslide Risk Monitoring System</p>
+
+    <form class="login-card" id="loginForm">
+      <h2>Welcome Back!</h2>
+      <p class="sub">Login to continue</p>
+
+      <div class="field">
+        <span class="field-icon" id="userIcon"></span>
+        <input type="text" placeholder="Username or Email" autocomplete="username" required />
+      </div>
+
+      <div class="field">
+        <span class="field-icon" id="lockIcon"></span>
+        <input type="password" id="pwField" placeholder="Password" autocomplete="current-password" required />
+        <button type="button" class="field-toggle" id="pwToggle" aria-label="Show password"></button>
+      </div>
+
+      <button type="submit" class="btn-primary">Login</button>
+      <a href="#" class="login-forgot">Forgot Password?</a>
+    </form>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  document.getElementById("userIcon").innerHTML = ICONS.user;
+  document.getElementById("lockIcon").innerHTML = ICONS.lock;
+  const pwToggle = document.getElementById("pwToggle");
+  pwToggle.innerHTML = ICONS.eye;
+  const pwField = document.getElementById("pwField");
+  pwToggle.addEventListener("click", () => {
+    pwField.type = pwField.type === "password" ? "text" : "password";
+  });
+  document.getElementById("loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    window.location.href = "dashboard.html";
+  });
+</script>
+</body>
+</html>

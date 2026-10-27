@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JATAYU · Alerts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <main class="content">
+      <div class="tabs">
+        <div class="tab active">Active Alerts</div>
+        <div class="tab">Alert History</div>
+      </div>
+
+      <div class="card card-pad">
+        <table class="data-table">
+          <thead>
+            <tr><th>Alert</th><th>Location</th><th>Risk Level</th><th>Time</th><th>Status</th></tr>
+          </thead>
+          <tbody id="alertsTable"></tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  renderSidebar("alerts");
+  renderTopbar({ title: "Alerts" });
+  initMobileNav();
+
+  const rows = [
+    { level: "vhigh", loc: "Dima Hasao, Assam", time: "10:20 AM", status: "New" },
+    { level: "high", loc: "Champhai, Mizoram", time: "09:45 AM", status: "New" },
+    { level: "high", loc: "West Garo Hills, Meghalaya", time: "09:10 AM", status: "Acknowledged" },
+    { level: "mod", loc: "Peren, Nagaland", time: "08:30 AM", status: "Acknowledged" },
+    { level: "mod", loc: "Tamenglong, Manipur", time: "07:50 AM", status: "Closed" },
+  ];
+  const badgeClass = { vhigh: "badge-vhigh", high: "badge-high", mod: "badge-mod", low: "badge-low" };
+  const badgeLabel = { vhigh: "Very High", high: "High", mod: "Moderate", low: "Low" };
+  const dotColor = { vhigh: "var(--risk-vhigh)", high: "var(--risk-high)", mod: "var(--risk-mod)", low: "var(--risk-low)" };
+  const pillClass = { New: "pill-new", Acknowledged: "pill-ack", Closed: "pill-closed" };
+
+  document.getElementById("alertsTable").innerHTML = rows.map(r => `
+    <tr>
+      <td><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${dotColor[r.level]};margin-right:8px;"></span>Landslide Risk Alert</td>
+      <td>${r.loc}</td>
+      <td><span class="badge ${badgeClass[r.level]}">${badgeLabel[r.level]}</span></td>
+      <td>${r.time}</td>
+      <td><span class="pill ${pillClass[r.status]}">${r.status}</span></td>
+    </tr>
+  `).join("");
+</script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JATAYU · Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/app.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <main class="content">
+      <section class="stat-row">
+        <div class="card stat-card stat-vhigh">
+          <div class="stat-icon" id="icon-vhigh"></div>
+          <div class="stat-label">Very High Risk</div>
+          <div class="stat-value"><b>12</b><span>Areas</span></div>
+        </div>
+        <div class="card stat-card stat-high">
+          <div class="stat-icon" id="icon-high"></div>
+          <div class="stat-label">High Risk</div>
+          <div class="stat-value"><b>27</b><span>Areas</span></div>
+        </div>
+        <div class="card stat-card stat-mod">
+          <div class="stat-icon" id="icon-mod"></div>
+          <div class="stat-label">Moderate Risk</div>
+          <div class="stat-value"><b>64</b><span>Areas</span></div>
+        </div>
+        <div class="card stat-card stat-low">
+          <div class="stat-icon" id="icon-low"></div>
+          <div class="stat-label">Low Risk</div>
+          <div class="stat-value"><b>148</b><span>Areas</span></div>
+        </div>
+        <div class="card stat-card stat-alert">
+          <div class="stat-icon" id="icon-alert"></div>
+          <div class="stat-label">Active Alerts</div>
+          <div class="stat-value"><b>8</b><span>Alerts</span></div>
+        </div>
+      </section>
+
+      <section class="grid-2">
+        <div class="card card-pad">
+          <div class="card-header-row"><h3>Risk Overview (NER)</h3></div>
+          <div class="donut-wrap">
+            <div style="position:relative;width:170px;height:170px;flex-shrink:0;">
+              <canvas id="riskDonut" width="170" height="170"></canvas>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+                <div style="font-family:var(--font-display);font-size:26px;font-weight:700;">251</div>
+                <div style="font-size:11.5px;color:var(--text-mid);">Total Areas</div>
+              </div>
+            </div>
+            <div class="donut-legend">
+              <div class="legend-row"><span class="swatch" style="background:var(--risk-vhigh)"></span>Very High<span class="count">12</span></div>
+              <div class="legend-row"><span class="swatch" style="background:var(--risk-high)"></span>High<span class="count">27</span></div>
+              <div class="legend-row"><span class="swatch" style="background:var(--risk-mod)"></span>Moderate<span class="count">64</span></div>
+              <div class="legend-row"><span class="swatch" style="background:var(--risk-low)"></span>Low<span class="count">148</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-pad">
+          <div class="card-header-row">
+            <h3>Recent Alerts</h3>
+            <a class="link-arrow" href="alerts.html">View All Alerts</a>
+          </div>
+          <div id="alertsList"></div>
+        </div>
+      </section>
+
+      <footer class="footer-strip">
+        <div>PEOPLE<span class="divider">|</span>ENVIRONMENT<span class="divider">|</span>RESILIENT NORTHEAST</div>
+        <div>A Safer Tomorrow, Through Smarter Monitoring</div>
+      </footer>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  renderSidebar("dashboard");
+  renderTopbar({ title: "Dashboard", subtitle: "Overview of landslide risk, alerts and system status" });
+  initMobileNav();
+
+  document.getElementById("icon-vhigh").innerHTML = ICONS.triangleWarn;
+  document.getElementById("icon-high").innerHTML = ICONS.houseWarn;
+  document.getElementById("icon-mod").innerHTML = ICONS.house;
+  document.getElementById("icon-low").innerHTML = ICONS.homeSafe;
+  document.getElementById("icon-alert").innerHTML = ICONS.bell;
+
+  const alerts = [
+    { level: "vhigh", label: "Very High Risk", loc: "Dima Hasao, Assam", time: "10:20 AM" },
+    { level: "high", label: "High Risk", loc: "Champhai, Mizoram", time: "09:45 AM" },
+    { level: "high", label: "High Risk", loc: "West Garo Hills, Meghalaya", time: "09:10 AM" },
+    { level: "mod", label: "Moderate Risk", loc: "Peren, Nagaland", time: "08:30 AM" },
+    { level: "mod", label: "Moderate Risk", loc: "Tamenglong, Manipur", time: "07:50 AM" },
+  ];
+  const colorFor = { vhigh: "var(--risk-vhigh)", high: "var(--risk-high)", mod: "var(--risk-mod)", low: "var(--risk-low)" };
+  const bgFor = { vhigh: "rgba(229,72,77,.18)", high: "rgba(245,137,58,.18)", mod: "rgba(240,196,25,.18)", low: "rgba(63,193,119,.18)" };
+
+  document.getElementById("alertsList").innerHTML = alerts.map(a => `
+    <div class="alert-row">
+      <div class="alert-badge" style="background:${bgFor[a.level]};color:${colorFor[a.level]}">${ICONS.bell.replace('viewBox="0 0 24 24"','viewBox="0 0 24 24" width="16" height="16"')}</div>
+      <div>
+        <div class="alert-title">${a.label}</div>
+        <div class="alert-loc">${a.loc}</div>
+      </div>
+      <div class="alert-time">${a.time}</div>
+    </div>
+  `).join("");
+
+  const ctx = document.getElementById("riskDonut");
+  new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Very High", "High", "Moderate", "Low"],
+      datasets: [{
+        data: [12, 27, 64, 148],
+        backgroundColor: ["#e5484d", "#f5893a", "#f0c419", "#3fc177"],
+        borderWidth: 0,
+      }],
+    },
+    options: {
+      cutout: "72%",
+      plugins: { legend: { display: false }, tooltip: { enabled: true } },
+    },
+  });
+</script>
+</body>
+</html>

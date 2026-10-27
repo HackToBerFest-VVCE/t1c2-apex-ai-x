@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JATAYU · Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/app.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  .map-page{padding:0 32px 32px;}
+  .map-frame{
+    position:relative;
+    height:calc(100vh - 150px);
+    min-height:520px;
+    border-radius:var(--radius-lg);
+    overflow:hidden;
+    border:1px solid var(--border-soft);
+  }
+  #leafletMap{width:100%;height:100%;background:#0e1a12;}
+  .map-search{
+    position:absolute;top:18px;left:18px;z-index:500;width:320px;
+  }
+  .map-topright{
+    position:absolute;top:18px;right:18px;z-index:500;
+    display:flex;gap:10px;
+  }
+  .map-zoom{
+    position:absolute;bottom:70px;right:18px;z-index:500;
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .map-scale{
+    position:absolute;bottom:18px;right:18px;z-index:500;
+    color:#e7edf3;font-size:12px;display:flex;align-items:center;gap:8px;
+  }
+  .map-scale .bar{width:70px;height:2px;background:#e7edf3;}
+  .location-card{
+    position:absolute;top:78px;left:18px;z-index:500;width:320px;
+  }
+  .location-card__close{
+    background:none;border:none;color:var(--text-mid);cursor:pointer;
+  }
+  .impact-row{margin-top:16px;}
+  .legend-card{
+    position:absolute;bottom:18px;left:18px;z-index:500;width:170px;
+  }
+  .legend-mini-row{display:flex;align-items:center;gap:9px;font-size:13px;padding:5px 0;}
+  .legend-mini-row .dot{width:10px;height:10px;border-radius:50%;}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+
+    <main class="content map-page">
+      <div class="map-frame">
+        <div id="leafletMap"></div>
+
+        <div class="map-search card searchbar" style="margin:0;">
+          <span id="searchIcon"></span>
+          <input type="text" placeholder="Search location..." id="searchInput" />
+        </div>
+
+        <div class="location-card card card-pad" id="locationCard">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <h3 style="margin-bottom:2px;">Location Details</h3>
+            <button class="location-card__close" id="closeCard"></button>
+          </div>
+          <div style="font-family:var(--font-display);font-weight:700;font-size:17px;margin:6px 0 10px;">Dima Hasao, Assam</div>
+          <span class="badge badge-vhigh">Very High Risk</span>
+
+          <div style="margin-top:16px;font-size:12.5px;color:var(--text-mid);">Risk Score</div>
+          <div style="font-family:var(--font-display);font-size:26px;font-weight:700;margin:2px 0 8px;">87 / 100</div>
+          <div style="height:7px;border-radius:99px;background:#22304a;overflow:hidden;">
+            <div style="height:100%;width:87%;background:var(--risk-vhigh);"></div>
+          </div>
+
+          <div style="font-size:12.5px;color:var(--text-mid);margin-top:16px;">Potential Impact</div>
+          <div class="impact-row">
+            <div class="impact-item" id="impactRoad"><b>3</b>Roads</div>
+            <div class="impact-item" id="impactVillage"><b>2</b>Villages</div>
+            <div class="impact-item" id="impactBuilding"><b>1</b>Infrastructure</div>
+          </div>
+
+          <a href="risk-analysis.html" class="btn btn-gold btn-block" style="margin-top:18px;">View Full Analysis</a>
+        </div>
+
+        <div class="map-topright">
+          <button class="icon-btn" style="width:auto;padding:0 14px;gap:8px;display:flex;" id="layerBtn">
+            <span>Risk Layer</span><span id="chevIcon"></span>
+          </button>
+          <button class="icon-btn" id="layersIcon2"></button>
+          <button class="icon-btn" id="filterIcon2"></button>
+        </div>
+
+        <div class="map-zoom">
+          <button class="icon-btn" id="zoomIn"></button>
+          <button class="icon-btn" id="zoomOut"></button>
+          <button class="icon-btn" id="locateBtn"></button>
+        </div>
+
+        <div class="legend-card card card-pad">
+          <div style="font-size:13px;font-weight:600;margin-bottom:8px;">Risk Level</div>
+          <div class="legend-mini-row"><span class="dot" style="background:var(--risk-vhigh)"></span>Very High</div>
+          <div class="legend-mini-row"><span class="dot" style="background:var(--risk-high)"></span>High</div>
+          <div class="legend-mini-row"><span class="dot" style="background:var(--risk-mod)"></span>Moderate</div>
+          <div class="legend-mini-row"><span class="dot" style="background:var(--risk-low)"></span>Low</div>
+        </div>
+
+        <div class="map-scale"><span class="bar"></span>100 km</div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  renderSidebar("map");
+  renderTopbar({ title: "Map", subtitle: "Explore landslide risk levels across Northeast India" });
+  initMobileNav();
+
+  document.getElementById("searchIcon").innerHTML = ICONS.search;
+  document.getElementById("closeCard").innerHTML = ICONS.close;
+  document.getElementById("chevIcon").innerHTML = ICONS.chevronDown;
+  document.getElementById("layersIcon2").innerHTML = ICONS.layers;
+  document.getElementById("filterIcon2").innerHTML = ICONS.filter;
+  document.getElementById("zoomIn").innerHTML = ICONS.plus;
+  document.getElementById("zoomOut").innerHTML = ICONS.minus;
+  document.getElementById("locateBtn").innerHTML = ICONS.locateFixed;
+  document.getElementById("impactRoad").innerHTML = ICONS.road + document.getElementById("impactRoad").innerHTML;
+  document.getElementById("impactVillage").innerHTML = ICONS.village + document.getElementById("impactVillage").innerHTML;
+  document.getElementById("impactBuilding").innerHTML = ICONS.building + document.getElementById("impactBuilding").innerHTML;
+
+  document.getElementById("closeCard").addEventListener("click", () => {
+    document.getElementById("locationCard").style.display = "none";
+  });
+
+  // ---- Leaflet map centered on Northeast India ----
+  const map = L.map("leafletMap", { zoomControl: false, attributionControl: true })
+    .setView([25.8, 93.2], 6);
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 12,
+    minZoom: 5,
+    attribution: '&copy; OpenStreetMap contributors',
+  }).addTo(map);
+
+  document.getElementById("zoomIn").addEventListener("click", () => map.zoomIn());
+  document.getElementById("zoomOut").addEventListener("click", () => map.zoomOut());
+  document.getElementById("locateBtn").addEventListener("click", () => map.setView([25.8, 93.2], 6));
+
+  const riskZones = [
+    { name: "Dima Hasao, Assam", lat: 25.45, lng: 93.0, level: "vhigh", radius: 42000 },
+    { name: "Champhai, Mizoram", lat: 23.45, lng: 93.33, level: "high", radius: 30000 },
+    { name: "West Garo Hills, Meghalaya", lat: 25.5, lng: 90.2, level: "high", radius: 30000 },
+    { name: "Peren, Nagaland", lat: 25.55, lng: 93.75, level: "mod", radius: 26000 },
+    { name: "Tamenglong, Manipur", lat: 24.98, lng: 93.5, level: "mod", radius: 26000 },
+    { name: "East Khasi Hills, Meghalaya", lat: 25.3, lng: 91.75, level: "mod", radius: 24000 },
+    { name: "Lower Subansiri, Arunachal", lat: 27.5, lng: 93.9, level: "high", radius: 30000 },
+    { name: "Ukhrul, Manipur", lat: 25.1, lng: 94.36, level: "low", radius: 22000 },
+  ];
+  const colorFor = { vhigh: "#e5484d", high: "#f5893a", mod: "#f0c419", low: "#3fc177" };
+
+  riskZones.forEach(z => {
+    L.circle([z.lat, z.lng], {
+      radius: z.radius,
+      color: colorFor[z.level],
+      weight: 1,
+      fillColor: colorFor[z.level],
+      fillOpacity: 0.35,
+    }).addTo(map).bindPopup(`<b>${z.name}</b>`);
+  });
+
+  const primary = riskZones[0];
+  L.marker([primary.lat, primary.lng]).addTo(map)
+    .bindPopup(`<b>${primary.name}</b><br/>Very High Risk`).openPopup();
+</script>
+</body>
+</html>

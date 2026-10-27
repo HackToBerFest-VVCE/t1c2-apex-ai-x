@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JATAYU · Data Layers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/tokens.css" />
+<link rel="stylesheet" href="assets/css/app.css" />
+</head>
+<body>
+
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main">
+    <header class="topbar" id="topbar"></header>
+    <main class="content">
+      <div class="card card-pad" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:70px 30px;gap:14px;">
+        <div style="width:56px;height:56px;border-radius:14px;background:rgba(233,172,63,.12);display:flex;align-items:center;justify-content:center;color:var(--gold-2);" id="stubIcon"></div>
+        <h3 style="font-size:19px;">Data Layers</h3>
+        <p style="color:var(--text-mid);font-size:14px;max-width:380px;">This section is wired up and ready for real data — connect it to your backend to bring it to life.</p>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+<script>
+  renderSidebar("data-layers");
+  renderTopbar({ title: "Data Layers", subtitle: "Rainfall, soil moisture, slope and sensor data layers" });
+  initMobileNav();
+  document.getElementById("stubIcon").innerHTML = ICONS.layers;
+</script>
+</body>
+</html>

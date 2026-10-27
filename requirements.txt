@@ -1,0 +1,12 @@
+# SignalMesh AI - Python Dependencies
+# Landslide Risk Demonstration Model
+
+# Core data processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Machine learning
+scikit-learn>=1.3.0
+
+# Optional: Snowflake connector (not used in this demo - manual SQL execution)
+# snowflake-connector-python>=3.0.0
