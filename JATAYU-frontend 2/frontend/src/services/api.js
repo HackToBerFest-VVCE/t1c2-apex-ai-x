@@ -56,6 +56,41 @@ export const snowflakeAPI = {
     return response.data;
   },
 
+  // =========================================================================
+  // INDIA DISTRICT ENDPOINTS (Primary Focus)
+  // =========================================================================
+
+  /**
+   * Get all India districts with landslide risk data
+   * Returns 69 districts across 8 Northeast states from Snowflake
+   */
+  getIndiaDistricts: async () => {
+    const response = await apiClient.get('/api/india-districts');
+    return response.data;
+  },
+
+  /**
+   * Get single district by ID
+   * @param {number} districtId - District ID
+   */
+  getIndiaDistrict: async (districtId) => {
+    const response = await apiClient.get(`/api/india-districts/${districtId}`);
+    return response.data;
+  },
+
+  /**
+   * Get India district summary with aggregated statistics
+   * Returns: total counts, risk distribution, state statistics, top high-risk districts
+   */
+  getIndiaDistrictSummary: async () => {
+    const response = await apiClient.get('/api/india-district-summary');
+    return response.data;
+  },
+
+  // =========================================================================
+  // NATION-LEVEL ENDPOINTS (Legacy/Global Data)
+  // =========================================================================
+
   /**
    * Get all nation features (environmental risk factors)
    * Returns 25 nations from Snowflake NATION_FEATURES table

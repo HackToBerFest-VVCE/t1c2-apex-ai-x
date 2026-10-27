@@ -1,0 +1,121 @@
+=================================================================
+SIGNALMESH AI - QUICK DEMO COMMANDS
+=================================================================
+
+SYSTEM STATUS:
+✅ Backend: RUNNING on http://localhost:5000 (Terminal 10)
+✅ Frontend: RUNNING on http://localhost:3000 (Terminal 11)
+✅ Snowflake: CONNECTED (69 districts loaded)
+
+=================================================================
+TEST BACKEND (Command Line)
+=================================================================
+
+# 1. Check health
+curl http://localhost:5000/health
+
+# Expected: {"status":"ok","snowflake":{"connected":true}}
+
+# 2. Get India district summary
+curl http://localhost:5000/api/india-district-summary
+
+# Expected: {"success":true,"summary":{"totalDistricts":69,"totalStates":8,...}}
+
+# 3. Get all districts
+curl http://localhost:5000/api/india-districts
+
+# Expected: {"success":true,"count":69,"data":[...]}
+
+# 4. Get single district (ID=1)
+curl http://localhost:5000/api/india-districts/1
+
+# Expected: {"success":true,"data":{...district details...}}
+
+=================================================================
+OPEN DASHBOARD (Browser)
+=================================================================
+
+URL: http://localhost:3000
+
+Login Credentials:
+- Username: demo / admin / test (any works)
+- Password: password123 (or any - demo login)
+
+=================================================================
+DEMO FLOW
+=================================================================
+
+1. SHOW BACKEND HEALTH
+   Command: curl http://localhost:5000/health
+   Show: Snowflake connected: true
+
+2. SHOW API RESPONSE  
+   Command: curl http://localhost:5000/api/india-district-summary
+   Show: 69 districts, 8 states, risk distribution
+
+3. OPEN DASHBOARD
+   URL: http://localhost:3000
+   Login: demo/password123
+
+4. TOUR THE DASHBOARD
+   - Summary cards: 69 districts, 8 states
+   - Risk chart: 26 VERY_HIGH, 27 HIGH, etc.
+   - State analysis: Sikkim highest risk (49.34)
+   - District table: All 69 districts
+   - Top risks: Cherrapunji (112.31 EXTREME)
+
+5. DEMONSTRATE FILTERS
+   - Filter by state: Click "Sikkim" → Shows 4 districts
+   - Filter by risk: Select "VERY_HIGH" → Shows 26 districts
+   - Reset: Select "All States" and "All Risk Levels"
+
+6. HIGHLIGHT TRANSPARENCY
+   - Point to "SYNTHETIC_DEMO" label
+   - Explain: "Clearly marked as hackathon demonstration"
+   - Show: Data source badges
+
+=================================================================
+KEY TALKING POINTS
+=================================================================
+
+✅ "Real Snowflake cloud database integration"
+✅ "69 districts across all 8 Northeast states"
+✅ "Interactive React dashboard with live data"
+✅ "Transparent risk calculation formula"
+✅ "Clearly labeled demonstration data"
+✅ "Ready to scale with real sensors"
+
+=================================================================
+TROUBLESHOOTING
+=================================================================
+
+If backend not responding:
+cd backend
+npm run dev
+
+If frontend not loading:
+cd "JATAYU-frontend 2/frontend"
+npm start
+
+If Snowflake connection fails:
+Check backend/.env has correct credentials:
+- SNOWFLAKE_ACCOUNT=hz93433.ap-southeast-7.aws
+- SNOWFLAKE_USERNAME=kushalmys55@gmail.com
+- SNOWFLAKE_PASSWORD=<your password>
+
+=================================================================
+FINAL CHECK BEFORE DEMO
+=================================================================
+
+□ Backend running: curl http://localhost:5000/health
+□ Frontend running: Open http://localhost:3000
+□ Can login to dashboard
+□ Dashboard loads data (see 69 districts)
+□ Filters work (try selecting Sikkim)
+□ No console errors in browser
+
+=================================================================
+
+READY TO PRESENT! 🚀
+
+=================================================================

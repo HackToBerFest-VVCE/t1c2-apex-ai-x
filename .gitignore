@@ -37,8 +37,10 @@ env/
 ml/output/
 output/
 outputs/
-*.csv
-*.sql
+
+# Exclude large data exports but keep documentation datasets
+# *.csv  # Commented out - we want to commit documentation CSVs
+# *.sql  # Commented out - we want to commit SQL scripts
 
 # Node
 node_modules/

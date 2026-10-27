@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Layout from "@/components/Layout";
 import Login from "@/pages/Login";
+import IndiaDashboard from "@/pages/IndiaDashboard";
 import Dashboard from "@/pages/Dashboard";
 import MapPage from "@/pages/MapPage";
 import RiskAnalysis from "@/pages/RiskAnalysis";
@@ -23,7 +24,8 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
-              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/dashboard" element={<IndiaDashboard />} />
+              <Route path="/dashboard-legacy" element={<Dashboard />} />
               <Route path="/map" element={<MapPage />} />
               <Route path="/risk-analysis" element={<RiskAnalysis />} />
               <Route path="/alerts" element={<Alerts />} />
