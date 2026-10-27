@@ -233,6 +233,13 @@ app.get('/api', (req, res) => {
 // DATA ENDPOINTS
 // =============================================================================
 
+// Import live monitoring routes
+const liveMonitoringRoutes = require('./routes/liveMonitoring');
+
+// Configure live monitoring routes with Snowflake query executor
+liveMonitoringRoutes.setExecuteQuery(executeQuery);
+app.use('/api/live', liveMonitoringRoutes.router);
+
 // -----------------------------------------------------------------------------
 // INDIA DISTRICT ENDPOINTS (Primary Focus)
 // -----------------------------------------------------------------------------
@@ -635,6 +642,10 @@ app.use((req, res) => {
       'GET /api/india-districts',
       'GET /api/india-districts/:districtId',
       'GET /api/india-district-summary',
+      'GET /api/live/status',
+      'GET /api/live/overview',
+      'GET /api/live/districts/:districtId',
+      'POST /api/live/refresh',
       'GET /api/nation-features',
       'GET /api/risk-assessments',
       'GET /api/nation-summary',
@@ -673,6 +684,11 @@ app.listen(PORT, () => {
   console.log('  GET /api/india-districts        — All districts (69 districts, 8 states)');
   console.log('  GET /api/india-districts/:id    — Single district by ID');
   console.log('  GET /api/india-district-summary — Aggregated statistics & risk distribution');
+  console.log('\n🔴 Live Monitoring Endpoints (Feature 2):');
+  console.log('  GET /api/live/status            — Live system status & data sources');
+  console.log('  GET /api/live/overview          — All districts live summary');
+  console.log('  GET /api/live/districts/:id     — District live data & assessment');
+  console.log('  POST /api/live/refresh          — Manual data refresh');
   console.log('\n🌏 Global Nation Endpoints (Legacy):');
   console.log('  GET /health                     — Health check & Snowflake status');
   console.log('  GET /api                        — API information');
