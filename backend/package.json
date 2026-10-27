@@ -17,7 +17,8 @@
     "snowflake-sdk": "^1.11.0",
     "axios": "^1.6.0",
     "firebase-admin": "^12.0.0",
-    "node-cache": "^5.1.2"
+    "node-cache": "^5.1.2",
+    "ws": "^8.14.2"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

@@ -15,6 +15,7 @@ import ReportActivity from "@/pages/ReportActivity";
 import DataLayers from "@/pages/DataLayers";
 import History from "@/pages/History";
 import Settings from "@/pages/Settings";
+import EmergencyAlert from "@/pages/EmergencyAlert";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route path="/login" element={<Login />} />
+            {/* Emergency Alert - Zero-login, no protection */}
+            <Route path="/emergency-alert" element={<EmergencyAlert />} />
             <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
               <Route path="/dashboard" element={<IndiaDashboard />} />
               <Route path="/dashboard-legacy" element={<Dashboard />} />

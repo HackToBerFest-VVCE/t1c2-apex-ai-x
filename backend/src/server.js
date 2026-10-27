@@ -10,8 +10,11 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const snowflake = require('snowflake-sdk');
+const http = require('http');
+const WebSocket = require('ws');
 
 const app = express();
+const server = http.createServer(app);
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -239,6 +242,13 @@ const liveMonitoringRoutes = require('./routes/liveMonitoring');
 // Configure live monitoring routes with Snowflake query executor
 liveMonitoringRoutes.setExecuteQuery(executeQuery);
 app.use('/api/live', liveMonitoringRoutes.router);
+
+// Import emergency alert routes
+const emergencyAlerts = require('./routes/emergencyAlerts');
+
+// Configure emergency alert routes with Snowflake query executor
+emergencyAlerts.setExecuteQuery(executeQuery);
+app.use('/api/alerts', emergencyAlerts.router);
 
 // -----------------------------------------------------------------------------
 // INDIA DISTRICT ENDPOINTS (Primary Focus)
@@ -646,6 +656,11 @@ app.use((req, res) => {
       'GET /api/live/overview',
       'GET /api/live/districts/:districtId',
       'POST /api/live/refresh',
+      'POST /api/alerts/trigger',
+      'GET /api/alerts/history',
+      'GET /api/alerts/:alertId',
+      'POST /api/alerts/acknowledge',
+      'POST /api/alerts/test',
       'GET /api/nation-features',
       'GET /api/risk-assessments',
       'GET /api/nation-summary',
@@ -671,14 +686,29 @@ app.use((err, req, res, next) => {
 // Initialize Snowflake connection on startup
 initializeSnowflake();
 
+// Initialize WebSocket server for emergency alerts
+const wss = new WebSocket.Server({ server, path: '/ws/alerts' });
+
+wss.on('connection', (ws) => {
+  console.log('[WebSocket] Client connected to emergency alerts channel');
+  emergencyAlerts.registerWebSocket(ws);
+  
+  ws.on('error', (error) => {
+    console.error('[WebSocket] Error:', error);
+  });
+});
+
+console.log('✅ WebSocket server initialized on /ws/alerts');
+
 // Start server
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log('='.repeat(60));
   console.log('🚀 SignalMesh AI Backend Server');
   console.log('='.repeat(60));
   console.log(`✅ Server running on http://localhost:${PORT}`);
   console.log(`📊 Environment: ${process.env.NODE_ENV || 'development'}`);
   console.log(`🔗 CORS Origin: ${process.env.CORS_ORIGIN || 'http://localhost:3000'}`);
+  console.log(`🔌 WebSocket: ws://localhost:${PORT}/ws/alerts`);
   console.log('='.repeat(60));
   console.log('\n🇮🇳 India District Endpoints (Primary):');
   console.log('  GET /api/india-districts        — All districts (69 districts, 8 states)');
@@ -689,6 +719,13 @@ app.listen(PORT, () => {
   console.log('  GET /api/live/overview          — All districts live summary');
   console.log('  GET /api/live/districts/:id     — District live data & assessment');
   console.log('  POST /api/live/refresh          — Manual data refresh');
+  console.log('\n🚨 Emergency Alert Endpoints (Feature 3):');
+  console.log('  POST /api/alerts/trigger        — Trigger emergency alert (from ML model)');
+  console.log('  GET /api/alerts/history         — Get alert history');
+  console.log('  GET /api/alerts/:alertId        — Get specific alert');
+  console.log('  POST /api/alerts/acknowledge    — Acknowledge alert');
+  console.log('  POST /api/alerts/test           — Trigger test alert');
+  console.log('  WS /ws/alerts                   — WebSocket for real-time alerts');
   console.log('\n🌏 Global Nation Endpoints (Legacy):');
   console.log('  GET /health                     — Health check & Snowflake status');
   console.log('  GET /api                        — API information');

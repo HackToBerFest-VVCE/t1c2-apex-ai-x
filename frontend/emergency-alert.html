@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🚨 EMERGENCY ALERT - SignalMesh AI</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+            background: #111827;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #pulse-bg {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, rgba(239,68,68,0.4) 0%, rgba(0,0,0,0.9) 70%);
+            animation: pulse-red 1s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes pulse-fast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 42rem;
+        }
+
+        .banner {
+            background: #dc2626;
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 1rem 1rem 0 0;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: pulse-fast 0.75s infinite;
+        }
+
+        .banner.acknowledged {
+            animation: none;
+            background: #16a34a;
+        }
+
+        .banner-title {
+            display: flex;
+            align-items: center;
+            justify-center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .icon-bounce {
+            animation: bounce 1s infinite;
+            font-size: 2rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .content {
+            background: #1f2937;
+            padding: 2rem;
+            border-radius: 0 0 1rem 1rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .stop-siren {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: #374151;
+            border: none;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.25rem;
+            transition: background 0.2s;
+        }
+
+        .stop-siren:hover {
+            background: #4b5563;
+        }
+
+        .location-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .location-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .location-coords, .location-time {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .risk-score-box {
+            background: #111827;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 2px solid #dc2626;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .risk-score {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ef4444;
+            line-height: 1;
+        }
+
+        .risk-label {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .confidence {
+            color: #d1d5db;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        .factors-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .factors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .factor-card {
+            background: #111827;
+            padding: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .factor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .factor-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .factor-severity {
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        .factor-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .factor-unit {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .severity-extreme { color: #ef4444; }
+        .severity-critical { color: #f97316; }
+        .severity-high { color: #eab308; }
+        .severity-moderate { color: #3b82f6; }
+
+        .evacuation-box {
+            background: rgba(234, 179, 8, 0.1);
+            border: 2px solid #eab308;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .evacuation-title {
+            color: #eab308;
+            font-size: 1.125rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .evacuation-text {
+            line-height: 1.5;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn-emergency {
+            background: #dc2626;
+        }
+
+        .btn-emergency:hover {
+            background: #b91c1c;
+        }
+
+        .btn-acknowledge {
+            background: #16a34a;
+        }
+
+        .btn-acknowledge:hover {
+            background: #15803d;
+        }
+
+        .btn-share {
+            background: #2563eb;
+        }
+
+        .btn-share:hover {
+            background: #1d4ed8;
+        }
+
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .disclaimer {
+            background: #111827;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            font-size: 0.75rem;
+            color: #9ca3af;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 640px) {
+            h1 { font-size: 1.5rem; }
+            .risk-score { font-size: 3rem; }
+            .actions { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div id="pulse-bg"></div>
+    
+    <div class="container">
+        <div class="banner" id="banner">
+            <div class="banner-title">
+                <span class="icon-bounce">⚠️</span>
+                <h1 id="alert-level">CRITICAL RISK ALERT</h1>
+                <span class="icon-bounce">⚠️</span>
+            </div>
+            <p class="subtitle">IMMEDIATE ACTION REQUIRED</p>
+        </div>
+
+        <div class="content">
+            <button class="stop-siren" id="stop-siren" title="Stop Siren">✕</button>
+
+            <div class="location-section">
+                <div class="location-title" id="location">Loading...</div>
+                <p class="location-coords" id="coordinates">📍 Loading coordinates...</p>
+                <p class="location-time" id="timestamp">🕐 Loading timestamp...</p>
+            </div>
+
+            <div class="risk-score-box">
+                <p class="risk-label">REAL-TIME RISK SCORE</p>
+                <div class="risk-score" id="risk-score">--</div>
+                <p class="confidence">Confidence: HIGH | Model: AI/ML v2.0</p>
+            </div>
+
+            <div class="factors-section">
+                <h3 class="section-title">⚠️ Trigger Factors</h3>
+                <div class="factors-grid" id="factors-grid">
+                    <!-- Factors will be inserted here -->
+                </div>
+            </div>
+
+            <div class="evacuation-box">
+                <h3 class="evacuation-title">🧭 EVACUATION INSTRUCTIONS</h3>
+                <p class="evacuation-text" id="evacuation">Loading evacuation instructions...</p>
+            </div>
+
+            <div class="actions">
+                <a href="tel:112" class="btn btn-emergency">
+                    📞 Call 112
+                </a>
+                <button id="btn-acknowledge" class="btn btn-acknowledge">
+                    ✓ Acknowledge
+                </button>
+                <button id="btn-share" class="btn btn-share">
+                    📤 Share Alert
+                </button>
+            </div>
+
+            <div class="disclaimer">
+                SignalMesh AI Emergency Alert System | Alert ID: <span id="alert-id">--</span>
+                <br>
+                For life-threatening emergencies, call 112 immediately
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Audio siren using Web Audio API
+        let audioContext = null;
+        let oscillator = null;
+        let gainNode = null;
+        let sirenInterval = null;
+        let acknowledged = false;
+
+        function initSiren() {
+            try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioContext = new AudioContext();
+                oscillator = audioContext.createOscillator();
+                gainNode = audioContext.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(850, audioContext.currentTime);
+                gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                oscillator.start();
+
+                // Pulse pattern
+                let isPulsing = true;
+                sirenInterval = setInterval(() => {
+                    if (!audioContext) return;
+                    const now = audioContext.currentTime;
+                    if (isPulsing) {
+                        gainNode.gain.setValueAtTime(0.3, now);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, now + 0.5);
+                    }
+                    isPulsing = !isPulsing;
+                }, 500);
+            } catch (error) {
+                console.error('Audio siren failed:', error);
+            }
+        }
+
+        function stopSiren() {
+            if (sirenInterval) clearInterval(sirenInterval);
+            if (oscillator) {
+                try { oscillator.stop(); } catch (e) {}
+            }
+            if (audioContext) {
+                audioContext.close();
+            }
+            document.getElementById('pulse-bg').style.display = 'none';
+        }
+
+        function parseUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                id: params.get('id') || 'DEMO_' + Date.now(),
+                location: params.get('location') || 'Cherrapunji, Meghalaya',
+                lat: parseFloat(params.get('lat')) || 25.2639,
+                lng: parseFloat(params.get('lng')) || 91.7320,
+                riskScore: parseFloat(params.get('risk_score')) || 0.89,
+                level: params.get('level') || 'CRITICAL',
+                factors: params.get('factors') ? JSON.parse(decodeURIComponent(params.get('factors'))) : [
+                    { name: 'Rainfall', value: 285, unit: 'mm', severity: 'EXTREME' },
+                    { name: 'Soil Saturation', value: 95, unit: '%', severity: 'CRITICAL' },
+                    { name: 'Terrain Slope', value: 78, unit: '°', severity: 'HIGH' },
+                    { name: 'Seismic Activity', value: 4.2, unit: 'ML', severity: 'MODERATE' }
+                ],
+                evacuation: params.get('evacuation') || 'EVACUATE IMMEDIATELY - Move to designated safe zone at Community Center, 2.3 km North'
+            };
+        }
+
+        function displayAlert(data) {
+            document.getElementById('alert-level').textContent = `${data.level} RISK ALERT`;
+            document.getElementById('location').textContent = data.location;
+            document.getElementById('coordinates').textContent = `📍 ${data.lat.toFixed(4)}°N, ${data.lng.toFixed(4)}°E`;
+            document.getElementById('timestamp').textContent = `🕐 ${new Date().toLocaleString()}`;
+            document.getElementById('risk-score').textContent = `${Math.round(data.riskScore * 100)}%`;
+            document.getElementById('evacuation').textContent = data.evacuation;
+            document.getElementById('alert-id').textContent = data.id;
+
+            // Display factors
+            const factorsGrid = document.getElementById('factors-grid');
+            factorsGrid.innerHTML = '';
+            data.factors.forEach(factor => {
+                const card = document.createElement('div');
+                card.className = 'factor-card';
+                card.innerHTML = `
+                    <div class="factor-header">
+                        <span class="factor-name">${factor.name}</span>
+                        <span class="factor-severity severity-${factor.severity.toLowerCase()}">${factor.severity}</span>
+                    </div>
+                    <div>
+                        <span class="factor-value">${factor.value}</span>
+                        <span class="factor-unit">${factor.unit}</span>
+                    </div>
+                `;
+                factorsGrid.appendChild(card);
+            });
+        }
+
+        function handleAcknowledge() {
+            acknowledged = true;
+            stopSiren();
+            document.getElementById('banner').classList.add('acknowledged');
+            document.getElementById('alert-level').textContent = 'ALERT ACKNOWLEDGED';
+            document.getElementById('btn-acknowledge').textContent = '✓ Acknowledged';
+            document.getElementById('btn-acknowledge').disabled = true;
+
+            // Send acknowledgment to backend
+            const data = parseUrlParams();
+            fetch('http://localhost:5000/api/alerts/acknowledge', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ alertId: data.id, timestamp: new Date().toISOString() })
+            }).catch(err => console.error('Ack failed:', err));
+        }
+
+        function handleShare() {
+            const shareUrl = window.location.href;
+            const data = parseUrlParams();
+            const shareText = `🚨 EMERGENCY ALERT: ${data.level} Risk at ${data.location}\nRisk Score: ${Math.round(data.riskScore * 100)}%\n${data.evacuation}\n\nView Alert: ${shareUrl}`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Emergency Alert - SignalMesh AI',
+                    text: shareText,
+                    url: shareUrl
+                }).catch(() => fallbackShare(shareText));
+            } else {
+                fallbackShare(shareText);
+            }
+        }
+
+        function fallbackShare(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text);
+                alert('Alert link copied to clipboard!');
+            } else {
+                prompt('Copy this alert link:', text);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const alertData = parseUrlParams();
+            displayAlert(alertData);
+            initSiren();
+
+            document.getElementById('stop-siren').addEventListener('click', stopSiren);
+            document.getElementById('btn-acknowledge').addEventListener('click', handleAcknowledge);
+            document.getElementById('btn-share').addEventListener('click', handleShare);
+
+            // Vibrate on mobile (if supported)
+            if (navigator.vibrate) {
+                navigator.vibrate([500, 200, 500, 200, 500]);
+            }
+        });
+    </script>
+</body>
+</html>
