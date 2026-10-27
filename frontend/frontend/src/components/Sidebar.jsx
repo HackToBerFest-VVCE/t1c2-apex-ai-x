@@ -30,8 +30,12 @@ export default function Sidebar({ mobileOpen, onClose }) {
     <div className="flex h-full flex-col bg-[#0e172a]/95 backdrop-blur-xl border-r border-blue-900/30 w-64">
       {/* Branding */}
       <div className="px-4 pt-5 pb-4 relative">
-        <img src="/slope.jpeg" alt="SignalMesh AI" className="w-full max-w-[210px] mx-auto drop-shadow-[0_6px_18px_rgba(0,0,0,0.6)]" />
-        <div className="text-center text-[10px] text-slate-400 mt-1 tracking-wide">AI-Powered Disaster Intelligence</div>
+        <div className="text-center">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-400 via-cyan-400 to-teal-400 bg-clip-text text-transparent tracking-tight">
+            SignalMesh AI
+          </h1>
+        </div>
+        <div className="text-center text-[10px] text-slate-400 mt-2 tracking-wide">AI-Powered Disaster Intelligence</div>
         <div className="text-center text-[9px] text-slate-500 tracking-wider">by Apex-AI-X</div>
         <button onClick={onClose} className="lg:hidden absolute right-3 top-4 text-slate-400" data-testid="sidebar-close-btn">
           <X className="h-5 w-5" />
