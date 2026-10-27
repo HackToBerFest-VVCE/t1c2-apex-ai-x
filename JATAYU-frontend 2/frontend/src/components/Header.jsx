@@ -20,7 +20,7 @@ export default function Header({ onMenu }) {
   const { pathname } = useLocation();
   const { user, logout } = useApp();
   const [menuOpen, setMenuOpen] = useState(false);
-  const meta = META[pathname] || { title: "JATAYU", desc: "" };
+  const meta = META[pathname] || { title: "SignalMesh AI", desc: "" };
 
   return (
     <header className="sticky top-0 z-30 bg-[#0a1020]/85 backdrop-blur-md border-b border-blue-900/30">

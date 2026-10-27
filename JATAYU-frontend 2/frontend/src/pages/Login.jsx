@@ -43,8 +43,9 @@ export default function Login() {
       </div>
 
       <div className="relative z-10 w-full max-w-md flex flex-col items-center">
-        <img src="/slope.jpeg" alt="JATAYU" className="w-full max-w-[200px] drop-shadow-[0_10px_30px_rgba(0,0,0,0.7)]" />
-        <div className="text-slate-200 text-sm mb-7 -mt-1">Landslide Risk Monitoring System</div>
+        <img src="/slope.jpeg" alt="SignalMesh AI" className="w-full max-w-[200px] drop-shadow-[0_10px_30px_rgba(0,0,0,0.7)]" />
+        <div className="text-slate-200 text-sm mb-1 -mt-1">SignalMesh AI</div>
+        <div className="text-slate-400 text-xs mb-7">AI-Powered Disaster Intelligence by Apex-AI-X</div>
 
         <form onSubmit={submit} className="w-full bg-white rounded-2xl shadow-2xl p-7 sm:p-8" data-testid="login-card">
           <h2 className="font-display text-3xl font-extrabold text-slate-900 text-center">Welcome Back!</h2>

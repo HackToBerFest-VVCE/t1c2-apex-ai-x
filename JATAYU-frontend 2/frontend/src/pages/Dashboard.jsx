@@ -5,6 +5,9 @@ import { LOCATIONS } from "@/data/locations";
 import { ALERTS } from "@/data/alerts";
 import { riskColor } from "@/lib/risk";
 import { useApp } from "@/context/AppContext";
+import SnowflakeStatus from "@/components/SnowflakeStatus";
+import DataSourceBadge from "@/components/DataSourceBadge";
+import DataDisclaimer from "@/components/DataDisclaimer";
 
 const STATS = [
   { level: "Very High", label: "Very High Risk", value: 12, unit: "Areas", icon: AlertTriangle, color: "#FF2020" },
@@ -32,7 +35,17 @@ export default function Dashboard() {
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+      {/* Snowflake Integration Status */}
+      <SnowflakeStatus />
+
+      {/* Data Source Disclaimer */}
+      <DataDisclaimer variant="district-demo" />
+
       {/* Stat cards */}
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="font-display text-lg font-bold text-white">Northeast India Districts</h2>
+        <DataSourceBadge source="demo" />
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
         {STATS.map((s, i) => {
           const Icon = s.icon;

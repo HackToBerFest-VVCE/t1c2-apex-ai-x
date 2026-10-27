@@ -1,0 +1,22 @@
+{
+  "name": "signalmesh-ai-backend",
+  "version": "1.0.0",
+  "description": "SignalMesh AI secure backend API for Snowflake integration",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": ["signalmesh", "disaster", "landslide", "snowflake", "api"],
+  "author": "Apex-AI-X",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "snowflake-sdk": "^1.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

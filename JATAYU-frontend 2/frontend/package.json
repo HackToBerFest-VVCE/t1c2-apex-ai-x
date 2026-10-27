@@ -1,6 +1,7 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "signalmesh-ai-frontend",
+  "version": "1.0.0",
+  "description": "SignalMesh AI — AI-Powered Disaster Intelligence Platform by Apex-AI-X",
   "private": true,
   "dependencies": {
     "@hookform/resolvers": "5.0.1",

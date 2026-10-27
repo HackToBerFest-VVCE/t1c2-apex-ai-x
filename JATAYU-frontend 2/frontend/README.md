@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# SignalMesh AI — Frontend
+
+AI-Powered Disaster Intelligence Platform by Apex-AI-X
+
+Advanced landslide risk monitoring and disaster intelligence for Northeast India, integrating machine learning models with Snowflake data infrastructure.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
